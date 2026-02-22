@@ -1,84 +1,542 @@
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <link rel="stylesheet" href="calculator.css">
-    <title>Calculator</title>
-  </head>
-  <body>
-    
-    <div class="calculator-container">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calc Pro</title>
+</head>
+<body>
 
-      
+<div class="calculator-container">
 
-      <div id="Calculator">
-      <input type="text" id="display" readonly>
- <div class="button-container">
-      <button class="button" onclick="currentDisplay= '';
-      
-    document.querySelector('#display').value = currentDisplay";>
-    c</button>
-      <button class="button" onclick="currentDisplay= currentDisplay +'1';
-       
-    document.querySelector('#display').value = currentDisplay";>1</button>
-      <button class="button" onclick="currentDisplay=currentDisplay+'2';
-      
-      document.querySelector('#display').value = currentDisplay">2</button>
-      <button class="button" onclick="currentDisplay=currentDisplay+'+';
-      
-      document.querySelector('#display').value = currentDisplay">+</button>
-      <button class="button"onclick="currentDisplay=currentDisplay+'3';
-      
-      document.querySelector('#display').value = currentDisplay">3</button>
-      <button class="button"onclick="currentDisplay=currentDisplay+'4';
-      
-      document.querySelector('#display').value = currentDisplay">4</button>
-      <button class="button"onclick="currentDisplay=currentDisplay+'-';
-      
-      document.querySelector('#display').value = currentDisplay">-</button>
-      <button class="button"onclick="currentDisplay=currentDisplay+'5';
-      
-      document.querySelector('#display').value = currentDisplay">5</button>
-<button class="button"onclick="currentDisplay=currentDisplay+'6';
-      
-document.querySelector('#display').value = currentDisplay">6</button>
-<button class="button"onclick="currentDisplay=currentDisplay+'*';
-      
-document.querySelector('#display').value = currentDisplay">*</button>
-<button class="button"onclick="currentDisplay=currentDisplay+'7';
-      
-document.querySelector('#display').value = currentDisplay">7</button>
-<button class="button"onclick="currentDisplay=currentDisplay+'8';
-      
-document.querySelector('#display').value = currentDisplay">8</button>
-<button class="button"onclick="currentDisplay=currentDisplay+'/';
-      
-document.querySelector('#display').value = currentDisplay">/</button>
-
-<button class="button" onclick="
-let result = eval(currentDisplay);
-currentDisplay=result;
-
-    document.querySelector('#display').value = currentDisplay">
-=</button>
-
-<button class="button"onclick="currentDisplay=currentDisplay+'9';
-      
-document.querySelector('#display').value = currentDisplay">9</button>
-<button class="button"onclick="currentDisplay=currentDisplay+'0';
-      
-document.querySelector('#display').value = currentDisplay">0</button>
-<button class="button"onclick="currentDisplay=currentDisplay+'.';
-      
-document.querySelector('#display').value = currentDisplay">.</button>
-       </div>
-
+  <!-- Header -->
+  <div class="header">
+    <div class="brand">
+      <h1>CALC PRO</h1>
+      <p id="modeLabel">🔢 CALCULATOR</p>
+    </div>
+    <div class="features-wrapper">
+      <button id="featuresBtn" onclick="toggleMenu()">
+        <span class="icon">⊕</span> FEATURES
+      </button>
+      <div id="featuresMenu">
+        <button class="menu-item active" onclick="switchTo('calc')" id="menu-calc">
+          🔢 <span>Calculator</span><span class="dot"></span>
+        </button>
+        <button class="menu-item" onclick="switchTo('sci')" id="menu-sci">
+          🧪 <span>Scientific</span><span class="dot"></span>
+        </button>
+        <button class="menu-item" onclick="switchTo('currency')" id="menu-currency">
+          💱 <span>Currency</span><span class="dot"></span>
+        </button>
+        <button class="menu-item" onclick="switchTo('length')" id="menu-length">
+          📏 <span>Length</span><span class="dot"></span>
+        </button>
+        <button class="menu-item" onclick="switchTo('weight')" id="menu-weight">
+          ⚖️ <span>Weight</span><span class="dot"></span>
+        </button>
+        <button class="menu-item" onclick="switchTo('bmi')" id="menu-bmi">
+          🏃 <span>BMI</span><span class="dot"></span>
+        </button>
+        <button class="menu-item" onclick="switchTo('temp')" id="menu-temp">
+          🌡️ <span>Temperature</span><span class="dot"></span>
+        </button>
       </div>
     </div>
+  </div>
+
+  <!-- ═══════════ CALCULATOR PANEL ═══════════ -->
+  <div class="panel active" id="panel-calc">
+    <div class="calc-display">
+      <div class="calc-expr" id="calcExpr"></div>
+      <div id="display">0</div>
+      <div class="mem-indicator" id="memDisplay"></div>
+    </div>
+    <div class="btn-grid btn-grid-4 sci-row" id="sciRow" style="display:none;">
+      <button class="calc-btn sci" onclick="sciAction('sin')">sin</button>
+      <button class="calc-btn sci" onclick="sciAction('cos')">cos</button>
+      <button class="calc-btn sci" onclick="sciAction('tan')">tan</button>
+      <button class="calc-btn sci" onclick="sciAction('pi')">π</button>
+      <button class="calc-btn sci" onclick="sciAction('ln')">ln</button>
+      <button class="calc-btn sci" onclick="sciAction('log')">log</button>
+      <button class="calc-btn sci" onclick="sciAction('sqrt')">√</button>
+      <button class="calc-btn sci" onclick="sciAction('e')">e</button>
+      <button class="calc-btn sci" onclick="sciAction('sq')">x²</button>
+      <button class="calc-btn sci" onclick="sciAction('cb')">x³</button>
+      <button class="calc-btn sci" onclick="sciAction('inv')">1/x</button>
+      <button class="calc-btn sci" onclick="sciAction('fact')">n!</button>
+      <button class="calc-btn sci" onclick="sciAction('exp')">eˣ</button>
+      <button class="calc-btn sci" onclick="sciAction('pow10')">10ˣ</button>
+      <button class="calc-btn sci" onclick="sciAction('abs')">|x|</button>
+      <button class="calc-btn sci" onclick="calcInput('(')">(</button>
+    </div>
+    <div class="btn-grid btn-grid-4">
+      <button class="calc-btn dark" onclick="memAction('MC')">MC</button>
+      <button class="calc-btn dark" onclick="memAction('MR')">MR</button>
+      <button class="calc-btn dark" onclick="memAction('M+')">M+</button>
+      <button class="calc-btn dark" onclick="memAction('M-')">M-</button>
+      <button class="calc-btn dark" onclick="calcClear()">AC</button>
+      <button class="calc-btn dark" onclick="calcToggleSign()">+/-</button>
+      <button class="calc-btn dark" onclick="calcInput('%')">%</button>
+      <button class="calc-btn" onclick="calcInput('÷')">÷</button>
+      <button class="calc-btn" onclick="calcInput('7')">7</button>
+      <button class="calc-btn" onclick="calcInput('8')">8</button>
+      <button class="calc-btn" onclick="calcInput('9')">9</button>
+      <button class="calc-btn" onclick="calcInput('×')">×</button>
+      <button class="calc-btn" onclick="calcInput('4')">4</button>
+      <button class="calc-btn" onclick="calcInput('5')">5</button>
+      <button class="calc-btn" onclick="calcInput('6')">6</button>
+      <button class="calc-btn" onclick="calcInput('-')">-</button>
+      <button class="calc-btn" onclick="calcInput('1')">1</button>
+      <button class="calc-btn" onclick="calcInput('2')">2</button>
+      <button class="calc-btn" onclick="calcInput('3')">3</button>
+      <button class="calc-btn" onclick="calcInput('+')">+</button>
+      <button class="calc-btn" onclick="calcInput('0')">0</button>
+      <button class="calc-btn" onclick="calcInput('.')">.</button>
+      <button class="calc-btn dark" onclick="calcBackspace()">⌫</button>
+      <button class="calc-btn accent" onclick="calcEquals()">=</button>
+    </div>
+  </div>
+
+  <!-- ═══════════ CURRENCY PANEL ═══════════ -->
+  <div class="panel" id="panel-currency">
+    <div class="conv-title">💱 Currency Converter</div>
+    <p class="conv-note">* Approximate reference rates</p>
+    <input class="conv-input" type="number" id="currVal" placeholder="Enter amount" oninput="convertCurrency()">
+    <div class="conv-row">
+      <select class="conv-select" id="currFrom" onchange="convertCurrency()">
+        <option value="USD">USD</option><option value="EUR">EUR</option>
+        <option value="GBP">GBP</option><option value="INR" selected>INR</option>
+        <option value="JPY">JPY</option><option value="CAD">CAD</option>
+        <option value="AUD">AUD</option><option value="CHF">CHF</option>
+        <option value="CNY">CNY</option><option value="SGD">SGD</option>
+        <option value="AED">AED</option><option value="MYR">MYR</option>
+        <option value="THB">THB</option><option value="KRW">KRW</option>
+      </select>
+      <button class="swap-btn" onclick="swapCurrency()">⇄</button>
+      <select class="conv-select" id="currTo" onchange="convertCurrency()">
+        <option value="USD" selected>USD</option><option value="EUR">EUR</option>
+        <option value="GBP">GBP</option><option value="INR">INR</option>
+        <option value="JPY">JPY</option><option value="CAD">CAD</option>
+        <option value="AUD">AUD</option><option value="CHF">CHF</option>
+        <option value="CNY">CNY</option><option value="SGD">SGD</option>
+        <option value="AED">AED</option><option value="MYR">MYR</option>
+        <option value="THB">THB</option><option value="KRW">KRW</option>
+      </select>
+    </div>
+    <div class="conv-result">
+      <div class="conv-result-label" id="currLabel">0 INR =</div>
+      <div class="conv-result-value" id="currResult">0 USD</div>
+    </div>
+    <div class="ref-grid" id="currRef"></div>
+  </div>
+
+  <!-- ═══════════ LENGTH PANEL ═══════════ -->
+  <div class="panel" id="panel-length">
+    <div class="conv-title">📏 Length Converter</div>
+    <input class="conv-input" type="number" id="lenVal" placeholder="Enter value" oninput="convertLength()">
+    <div class="conv-row">
+      <select class="conv-select" id="lenFrom" onchange="convertLength()">
+        <option>mm</option><option>cm</option><option selected>m</option>
+        <option>km</option><option>inch</option><option>ft</option>
+        <option>yard</option><option>mile</option>
+      </select>
+      <span class="conv-arrow">→</span>
+      <select class="conv-select" id="lenTo" onchange="convertLength()">
+        <option>mm</option><option selected>cm</option><option>m</option>
+        <option>km</option><option>inch</option><option>ft</option>
+        <option>yard</option><option>mile</option>
+      </select>
+    </div>
+    <div class="conv-result">
+      <div class="conv-result-label" id="lenLabel">0 m =</div>
+      <div class="conv-result-value" id="lenResult">0 cm</div>
+    </div>
+    <div class="ref-grid" id="lenRef"></div>
+  </div>
+
+  <!-- ═══════════ WEIGHT PANEL ═══════════ -->
+  <div class="panel" id="panel-weight">
+    <div class="conv-title">⚖️ Weight Converter</div>
+    <input class="conv-input" type="number" id="wgtVal" placeholder="Enter value" oninput="convertWeight()">
+    <div class="conv-row">
+      <select class="conv-select" id="wgtFrom" onchange="convertWeight()">
+        <option>mg</option><option>g</option><option selected>kg</option>
+        <option>tonne</option><option>oz</option><option>lb</option><option>stone</option>
+      </select>
+      <span class="conv-arrow">→</span>
+      <select class="conv-select" id="wgtTo" onchange="convertWeight()">
+        <option>mg</option><option>g</option><option>kg</option>
+        <option>tonne</option><option>oz</option><option selected>lb</option><option>stone</option>
+      </select>
+    </div>
+    <div class="conv-result">
+      <div class="conv-result-label" id="wgtLabel">0 kg =</div>
+      <div class="conv-result-value" id="wgtResult">0 lb</div>
+    </div>
+    <div class="ref-grid" id="wgtRef"></div>
+  </div>
+
+  <!-- ═══════════ BMI PANEL ═══════════ -->
+  <div class="panel" id="panel-bmi">
+    <div class="conv-title">🏃 BMI Calculator</div>
+    <div class="toggle-row">
+      <button class="toggle-btn active" id="btnMetric" onclick="setBMIUnit('metric')">Metric</button>
+      <button class="toggle-btn" id="btnImperial" onclick="setBMIUnit('imperial')">Imperial</button>
+    </div>
+    <div class="bmi-inputs">
+      <div class="bmi-field">
+        <label id="heightLabel">Height (cm)</label>
+        <input type="number" id="bmiH" placeholder="170" oninput="calcBMI()">
+      </div>
+      <div class="bmi-field">
+        <label id="weightLabel">Weight (kg)</label>
+        <input type="number" id="bmiW" placeholder="70" oninput="calcBMI()">
+      </div>
+    </div>
+    <div class="bmi-result" id="bmiResult">
+      <small>Your BMI</small>
+      <div class="bmi-value" id="bmiValue">—</div>
+      <div class="bmi-label" id="bmiCategory">—</div>
+    </div>
+    <div class="bmi-scale">
+      <h4>BMI SCALE</h4>
+      <div class="scale-row"><span style="color:#74b9ff">&lt; 18.5</span><span style="color:#74b9ff">Underweight</span></div>
+      <div class="scale-row"><span style="color:#55efc4">18.5 – 24.9</span><span style="color:#55efc4">Normal</span></div>
+      <div class="scale-row"><span style="color:#fdcb6e">25 – 29.9</span><span style="color:#fdcb6e">Overweight</span></div>
+      <div class="scale-row"><span style="color:#e17055">≥ 30</span><span style="color:#e17055">Obese</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════ TEMPERATURE PANEL ═══════════ -->
+  <div class="panel" id="panel-temp">
+    <div class="conv-title">🌡️ Temperature Converter</div>
+    <input class="conv-input" type="number" id="tempVal" placeholder="Enter temperature" oninput="convertTemp()">
+    <div class="conv-row">
+      <select class="conv-select" id="tempFrom" onchange="convertTemp()">
+        <option>°C</option><option>°F</option><option>K</option>
+      </select>
+      <span class="conv-arrow">→</span>
+      <select class="conv-select" id="tempTo" onchange="convertTemp()">
+        <option>°C</option><option selected>°F</option><option>K</option>
+      </select>
+    </div>
+    <div class="conv-result">
+      <div class="conv-result-label" id="tempLabel">0 °C =</div>
+      <div class="conv-result-value" id="tempResult">0 °F</div>
+    </div>
+    <div class="temp-all" id="tempAll"></div>
+  </div>
+
+</div><!-- end .calculator-container -->
 
 <script>
-    let currentDisplay ='';
-    document.querySelector('#display').value = currentDisplay;
-</script>
+// ════════════════════════════════════════════
+//  MENU & PANEL SWITCHING
+// ════════════════════════════════════════════
+const MODES = {
+  calc:     { label: '🔢 CALCULATOR',   panel: 'panel-calc'     },
+  sci:      { label: '🧪 SCIENTIFIC',   panel: 'panel-calc'     },
+  currency: { label: '💱 CURRENCY',     panel: 'panel-currency' },
+  length:   { label: '📏 LENGTH',       panel: 'panel-length'   },
+  weight:   { label: '⚖️ WEIGHT',       panel: 'panel-weight'   },
+  bmi:      { label: '🏃 BMI',          panel: 'panel-bmi'      },
+  temp:     { label: '🌡️ TEMPERATURE',  panel: 'panel-temp'     },
+};
+let currentMode = 'calc';
 
-  </body>
-  </html>
+function toggleMenu() {
+  const btn  = document.getElementById('featuresBtn');
+  const menu = document.getElementById('featuresMenu');
+  btn.classList.toggle('open');
+  menu.classList.toggle('open');
+}
+
+function switchTo(mode) {
+  // hide all panels
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  // deactivate all menu items
+  document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+
+  currentMode = mode;
+  const cfg = MODES[mode];
+
+  // show panel
+  document.getElementById(cfg.panel).classList.add('active');
+
+  // show/hide sci row
+  document.getElementById('sciRow').style.display = (mode === 'sci') ? 'grid' : 'none';
+
+  // activate menu item
+  document.getElementById('menu-' + mode).classList.add('active');
+
+  // update label
+  document.getElementById('modeLabel').textContent = cfg.label;
+
+  // close menu
+  document.getElementById('featuresBtn').classList.remove('open');
+  document.getElementById('featuresMenu').classList.remove('open');
+
+  // init refs
+  if (mode === 'currency') renderCurrRef();
+  if (mode === 'length')   renderLenRef();
+  if (mode === 'weight')   renderWgtRef();
+}
+
+// close menu on outside click
+document.addEventListener('click', e => {
+  const wrap = document.querySelector('.features-wrapper');
+  if (!wrap.contains(e.target)) {
+    document.getElementById('featuresBtn').classList.remove('open');
+    document.getElementById('featuresMenu').classList.remove('open');
+  }
+});
+
+// ════════════════════════════════════════════
+//  CALCULATOR LOGIC
+// ════════════════════════════════════════════
+let currentDisplay = '0';
+let calcExpr       = '';
+let waitNext       = false;
+let memory         = 0;
+
+function updateDisplay() {
+  const el = document.getElementById('display');
+  el.textContent = currentDisplay;
+  el.style.fontSize = currentDisplay.length > 12 ? '20px' : '34px';
+  document.getElementById('calcExpr').textContent   = calcExpr;
+  document.getElementById('memDisplay').textContent = memory !== 0 ? 'M: ' + memory : '';
+}
+
+function calcInput(val) {
+  const ops = ['+', '-', '×', '÷', '%'];
+  if (ops.includes(val)) {
+    calcExpr = currentDisplay + val;
+    waitNext = true;
+    updateDisplay();
+    return;
+  }
+  if (val === '(') {
+    currentDisplay = waitNext ? '(' : currentDisplay + '(';
+    waitNext = false;
+    updateDisplay();
+    return;
+  }
+  if (val === '.') {
+    if (waitNext) { currentDisplay = '0.'; waitNext = false; }
+    else if (!currentDisplay.includes('.')) currentDisplay += '.';
+    updateDisplay();
+    return;
+  }
+  if (waitNext) { currentDisplay = val; waitNext = false; }
+  else currentDisplay = currentDisplay === '0' ? val : currentDisplay + val;
+  updateDisplay();
+}
+
+function calcClear()       { currentDisplay = '0'; calcExpr = ''; waitNext = false; updateDisplay(); }
+function calcToggleSign()  { currentDisplay = String(-parseFloat(currentDisplay)); updateDisplay(); }
+function calcBackspace()   { currentDisplay = currentDisplay.length > 1 ? currentDisplay.slice(0,-1) : '0'; updateDisplay(); }
+
+function calcEquals() {
+  try {
+    const full   = calcExpr + currentDisplay;
+    const result = eval(full.replace(/×/g,'*').replace(/÷/g,'/'));
+    calcExpr = '';
+    currentDisplay = String(parseFloat(result.toFixed(10)));
+    waitNext = true;
+  } catch { currentDisplay = 'Error'; }
+  updateDisplay();
+}
+
+function memAction(op) {
+  if (op === 'MC') { memory = 0; }
+  if (op === 'MR') { currentDisplay = String(memory); waitNext = true; }
+  if (op === 'M+') { memory += parseFloat(currentDisplay); }
+  if (op === 'M-') { memory -= parseFloat(currentDisplay); }
+  updateDisplay();
+}
+
+function sciAction(fn) {
+  const x = parseFloat(currentDisplay);
+  const map = {
+    sin:   v => Math.sin(v * Math.PI/180),
+    cos:   v => Math.cos(v * Math.PI/180),
+    tan:   v => Math.tan(v * Math.PI/180),
+    ln:    v => Math.log(v),
+    log:   v => Math.log10(v),
+    sqrt:  v => Math.sqrt(v),
+    sq:    v => v*v,
+    cb:    v => v*v*v,
+    inv:   v => 1/v,
+    fact:  v => { let r=1; for(let i=2;i<=v;i++) r*=i; return r; },
+    exp:   v => Math.exp(v),
+    pow10: v => Math.pow(10,v),
+    abs:   v => Math.abs(v),
+    pi:    () => Math.PI,
+    e:     () => Math.E,
+  };
+  try {
+    const result = map[fn](x);
+    calcExpr = fn + '(' + currentDisplay + ')';
+    currentDisplay = String(parseFloat(result.toFixed(10)));
+    waitNext = true;
+  } catch { currentDisplay = 'Error'; }
+  updateDisplay();
+}
+
+// init display
+updateDisplay();
+
+// ════════════════════════════════════════════
+//  CURRENCY
+// ════════════════════════════════════════════
+const RATES = {
+  USD:1, EUR:0.92, GBP:0.79, INR:83.12, JPY:149.5,
+  CAD:1.36, AUD:1.53, CHF:0.89, CNY:7.24, SGD:1.34,
+  AED:3.67, MYR:4.72, THB:35.8, KRW:1325
+};
+
+function convertCurrency() {
+  const v    = parseFloat(document.getElementById('currVal').value) || 0;
+  const from = document.getElementById('currFrom').value;
+  const to   = document.getElementById('currTo').value;
+  const res  = (v / RATES[from]) * RATES[to];
+  document.getElementById('currLabel').textContent  = v + ' ' + from + ' =';
+  document.getElementById('currResult').textContent = res.toFixed(4).replace(/\.?0+$/,'') + ' ' + to;
+  renderCurrRef();
+}
+
+function swapCurrency() {
+  const f = document.getElementById('currFrom');
+  const t = document.getElementById('currTo');
+  const tmp = f.value; f.value = t.value; t.value = tmp;
+  convertCurrency();
+}
+
+function renderCurrRef() {
+  const from = document.getElementById('currFrom').value;
+  const grid = document.getElementById('currRef');
+  grid.innerHTML = Object.keys(RATES).map(k =>
+    `<div class="ref-card"><span>1 USD</span> = ${RATES[k]} ${k}</div>`
+  ).join('');
+}
+
+// ════════════════════════════════════════════
+//  LENGTH
+// ════════════════════════════════════════════
+const LEN = { mm:0.001, cm:0.01, m:1, km:1000, inch:0.0254, ft:0.3048, yard:0.9144, mile:1609.34 };
+
+function convertLength() {
+  const v    = parseFloat(document.getElementById('lenVal').value) || 0;
+  const from = document.getElementById('lenFrom').value;
+  const to   = document.getElementById('lenTo').value;
+  const res  = (v * LEN[from]) / LEN[to];
+  document.getElementById('lenLabel').textContent  = v + ' ' + from + ' =';
+  document.getElementById('lenResult').textContent = res.toFixed(6).replace(/\.?0+$/,'') + ' ' + to;
+  renderLenRef();
+}
+
+function renderLenRef() {
+  const from = document.getElementById('lenFrom').value;
+  const grid = document.getElementById('lenRef');
+  grid.innerHTML = Object.keys(LEN).map(k =>
+    `<div class="ref-card"><span>1 ${from}</span> = ${(LEN[from]/LEN[k]).toFixed(5).replace(/\.?0+$/,'')} ${k}</div>`
+  ).join('');
+}
+
+// ════════════════════════════════════════════
+//  WEIGHT
+// ════════════════════════════════════════════
+const WGT = { mg:0.000001, g:0.001, kg:1, tonne:1000, oz:0.0283495, lb:0.453592, stone:6.35029 };
+
+function convertWeight() {
+  const v    = parseFloat(document.getElementById('wgtVal').value) || 0;
+  const from = document.getElementById('wgtFrom').value;
+  const to   = document.getElementById('wgtTo').value;
+  const res  = (v * WGT[from]) / WGT[to];
+  document.getElementById('wgtLabel').textContent  = v + ' ' + from + ' =';
+  document.getElementById('wgtResult').textContent = res.toFixed(6).replace(/\.?0+$/,'') + ' ' + to;
+  renderWgtRef();
+}
+
+function renderWgtRef() {
+  const from = document.getElementById('wgtFrom').value;
+  const grid = document.getElementById('wgtRef');
+  grid.innerHTML = Object.keys(WGT).map(k =>
+    `<div class="ref-card"><span>1 ${from}</span> = ${(WGT[from]/WGT[k]).toFixed(5).replace(/\.?0+$/,'')} ${k}</div>`
+  ).join('');
+}
+
+// ════════════════════════════════════════════
+//  BMI
+// ════════════════════════════════════════════
+let bmiUnit = 'metric';
+
+function setBMIUnit(u) {
+  bmiUnit = u;
+  document.getElementById('btnMetric').classList.toggle('active',   u==='metric');
+  document.getElementById('btnImperial').classList.toggle('active', u==='imperial');
+  document.getElementById('heightLabel').textContent = 'Height (' + (u==='metric'?'cm':'inches') + ')';
+  document.getElementById('weightLabel').textContent = 'Weight (' + (u==='metric'?'kg':'lbs') + ')';
+  document.getElementById('bmiH').placeholder = u==='metric' ? '170' : '67';
+  document.getElementById('bmiW').placeholder = u==='metric' ? '70'  : '154';
+  calcBMI();
+}
+
+function calcBMI() {
+  const h = parseFloat(document.getElementById('bmiH').value);
+  const w = parseFloat(document.getElementById('bmiW').value);
+  if (!h || !w) { document.getElementById('bmiResult').classList.remove('show'); return; }
+  let bmi;
+  if (bmiUnit==='metric') { const hm = h/100; bmi = w/(hm*hm); }
+  else { bmi = (703*w)/(h*h); }
+  const cats = [
+    { max:18.5, label:'Underweight', color:'#74b9ff' },
+    { max:25,   label:'Normal weight', color:'#55efc4' },
+    { max:30,   label:'Overweight',  color:'#fdcb6e' },
+    { max:999,  label:'Obese',       color:'#e17055' },
+  ];
+  const cat = cats.find(c => bmi < c.max);
+  const res = document.getElementById('bmiResult');
+  res.classList.add('show');
+  res.style.borderColor = cat.color;
+  document.getElementById('bmiValue').style.color    = cat.color;
+  document.getElementById('bmiCategory').style.color = cat.color;
+  document.getElementById('bmiValue').textContent    = bmi.toFixed(1);
+  document.getElementById('bmiCategory').textContent = cat.label;
+}
+
+// ════════════════════════════════════════════
+//  TEMPERATURE
+// ════════════════════════════════════════════
+function toC(v, unit) {
+  if (unit==='°C') return v;
+  if (unit==='°F') return (v-32)*5/9;
+  return v - 273.15;
+}
+function fromC(c, unit) {
+  if (unit==='°C') return c;
+  if (unit==='°F') return c*9/5+32;
+  return c + 273.15;
+}
+
+function convertTemp() {
+  const v    = parseFloat(document.getElementById('tempVal').value);
+  const from = document.getElementById('tempFrom').value;
+  const to   = document.getElementById('tempTo').value;
+  if (isNaN(v)) { document.getElementById('tempAll').innerHTML=''; return; }
+  const celsius = toC(v, from);
+  const result  = fromC(celsius, to);
+  document.getElementById('tempLabel').textContent  = v + ' ' + from + ' =';
+  document.getElementById('tempResult').textContent = result.toFixed(4).replace(/\.?0+$/,'') + ' ' + to;
+  const all = document.getElementById('tempAll');
+  all.innerHTML = ['°C','°F','K'].map(u =>
+    `<div class="temp-card"><small>${u}</small><strong>${fromC(celsius,u).toFixed(2)}</strong></div>`
+  ).join('');
+}
+
+// init refs on load
+renderCurrRef(); renderLenRef(); renderWgtRef();
+</script>
+</body>
+</html>
